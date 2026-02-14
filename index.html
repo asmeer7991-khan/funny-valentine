@@ -37,12 +37,12 @@
     #yesBtn {
       background-color: #ff4d4d;
       color: white;
+      position: absolute; /* needed so it can move around */
     }
 
     #noBtn {
       background-color: #4dff4d;
       color: black;
-      position: absolute;
     }
 
     button:hover {
@@ -93,13 +93,13 @@
 <body>
   <h1>Today is Lovers' Day 😏<br>Will You Be My Valentine, Kuyin?</h1>
   <div>
-    <button id="yesBtn">NO 😱</button>
-    <button id="noBtn">YES 😘</button>
+    <button id="yesBtn">YES 😘</button>   <!-- moves around -->
+    <button id="noBtn">NO 😱</button>     <!-- clickable -->
   </div>
   <video id="funnyVideo" width="300" style="display:none; margin-top:20px;" autoplay>
-  <source src="cute.mp4" type="video/mp4">
-  Your browser does not support the video tag.
-</video>
+    <source src="cute.mp4" type="video/mp4">
+    Your browser does not support the video tag.
+  </video>
   <div id="message"></div>
 
   <script>
@@ -107,48 +107,47 @@
     const noBtn = document.getElementById('noBtn');
     const message = document.getElementById('message');
 
-    // Make NO button impossible to click
-    noBtn.addEventListener('mousemove', moveNoButton); // desktop
-    noBtn.addEventListener('touchstart', moveNoButton); // mobile touch
+    // YES button moves around (impossible to click)
+    yesBtn.addEventListener('mousemove', moveYesButton);
+    yesBtn.addEventListener('touchstart', moveYesButton);
 
-    function moveNoButton() {
-      const maxX = window.innerWidth - noBtn.offsetWidth;
-      const maxY = window.innerHeight - noBtn.offsetHeight;
+    function moveYesButton() {
+      const maxX = window.innerWidth - yesBtn.offsetWidth;
+      const maxY = window.innerHeight - yesBtn.offsetHeight;
       const randomX = Math.random() * maxX;
       const randomY = Math.random() * maxY;
-      noBtn.style.left = randomX + 'px';
-      noBtn.style.top = randomY + 'px';
+      yesBtn.style.left = randomX + 'px';
+      yesBtn.style.top = randomY + 'px';
     }
 
-    // YES button click - funny personalized animation
-   yesBtn.addEventListener('click', () => {
-  message.innerHTML = "";
-  createConfetti(50);
-  let messages = [
-    "Kuyin, you just made the best decision ever 😏",
-    "Warning: Extreme cuteness incoming 💖",
-    "Prepare for unlimited memes and love 😎",
-    "You are officially my Valentine, Kuyin! ❤️"
-  ];
+    // NO button click - triggers video/confetti
+    noBtn.addEventListener('click', () => {
+      message.innerHTML = "";
+      createConfetti(50);
+      let messages = [
+        "Kuyin, you just made the best decision ever 😏",
+        "Warning: Extreme cuteness incoming 💖",
+        "Prepare for unlimited memes and love 😎",
+        "You are officially my Valentine, Kuyin! ❤️"
+      ];
 
-  // Show video
-  const video = document.getElementById('funnyVideo');
-  video.style.display = 'block';
-  video.play();
+      const video = document.getElementById('funnyVideo');
+      video.style.display = 'block';
+      video.play();
 
-  let i = 0;
-  const interval = setInterval(() => {
-    if(i >= messages.length) {
-      clearInterval(interval);
-    } else {
-      message.innerHTML = messages[i];
-      createHeart("Kuyin");
-      i++;
-    }
-  }, 1500);
-});
+      let i = 0;
+      const interval = setInterval(() => {
+        if(i >= messages.length) {
+          clearInterval(interval);
+        } else {
+          message.innerHTML = messages[i];
+          createHeart("Kuyin");
+          i++;
+        }
+      }, 1500);
+    });
 
-    // Create floating hearts with text
+    // Create floating hearts
     function createHeart(text) {
       const heart = document.createElement('div');
       heart.classList.add('heart');
@@ -187,4 +186,3 @@
   </script>
 </body>
 </html>
-
